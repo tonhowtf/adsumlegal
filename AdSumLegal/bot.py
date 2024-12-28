@@ -45,12 +45,12 @@ async def observador(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     user = update.message.from_user
 
     urls = ["https://www.instagram.com",
-            "https://www.tiktok.com", "https://www.reddit.com"]
+            "https://www.tiktok.com", "https://www.reddit.com", "https://x.com"]
 
     if any(user_message.startswith(url) for url in urls):
         await download_video(update)
     else:
-        logging.info(f"Mensagem ignorada de {user.first_name}: {user_message}")
+        logging.info(f"{user_message}")
 
 
 """                                            """
