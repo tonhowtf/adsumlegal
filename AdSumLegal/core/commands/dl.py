@@ -105,7 +105,7 @@ class VideoDownloader:
 
             if description:
                 formatted_description = f"```{description}```"
-                await update.message.reply_text(formatted_description)
+                await update.message.reply_text(formatted_description, parse_mode="Markdown")
 
             for media in media_files:
                 if media.endswith(".mp4"):
