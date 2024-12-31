@@ -111,7 +111,7 @@ class VideoDownloader:
                     await update.message.reply_photo(photo=open(media, "rb"))
 
             if description:
-                formatted_description = f"```{description}```"
+                formatted_description = f"```MadeByPicasso {description}```"
                 await update.message.reply_text(formatted_description, parse_mode="Markdown")
 
             self.clear_temp_dir()
