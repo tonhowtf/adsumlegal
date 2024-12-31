@@ -2,7 +2,8 @@ import logging
 import configparser
 from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
-from core.commands.dl import VideoDownloader  # Importa a classe VideoDownloader
+from core.commands.dl import VideoDownloader
+from core.commands.observer import Observer
 
 
 logging.basicConfig(
@@ -17,21 +18,11 @@ token = config["telegram"]["token"]
 
 
 video_downloader = VideoDownloader(temp_dir="core/commands/downloaded")
+observer = Observer(video_downloader)
 
 
-async def observador(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """
-    Observa mensagens enviadas pelo usuário e decide como processá-las.
-    """
-    user_message = update.message.text
-    urls = ["https://www.instagram.com", "https://www.tiktok.com",
-            "https://www.reddit.com", "https://x.com", "https://safereddit.com"]
-
-    if any(user_message.startswith(url) for url in urls):
-        # Chama o método da classe
-        await video_downloader.handle_video_download(update)
-    else:
-        logging.info(f"Mensagem recebida: {user_message}")
+async def observador(update, context):
+    await observer.process_message(update, context)
 
 
 def main() -> None:

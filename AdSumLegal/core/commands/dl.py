@@ -41,6 +41,7 @@ class VideoDownloader:
             os.makedirs(target_dir, exist_ok=True)
 
             idl = instaloader.Instaloader(
+                download_video_thumbnails=False,
                 download_pictures=True,
                 download_videos=True,
                 download_comments=False,
@@ -103,15 +104,15 @@ class VideoDownloader:
             media_files = result["media_files"]
             description = result["description"]
 
-            if description:
-                formatted_description = f"```{description}```"
-                await update.message.reply_text(formatted_description, parse_mode="Markdown")
-
             for media in media_files:
                 if media.endswith(".mp4"):
                     await update.message.reply_video(video=open(media, "rb"))
                 elif media.endswith(".jpg"):
                     await update.message.reply_photo(photo=open(media, "rb"))
+
+            if description:
+                formatted_description = f"```{description}```"
+                await update.message.reply_text(formatted_description, parse_mode="Markdown")
 
             self.clear_temp_dir()
 
